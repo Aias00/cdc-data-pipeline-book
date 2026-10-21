@@ -67,6 +67,8 @@ def request(path, payload=None):
 
 def connector(name, prefix, slow=False):
     cfg = {'connector.class': 'io.debezium.connector.mysql.MySqlConnector', 'tasks.max': '1',
+      'key.converter': 'org.apache.kafka.connect.json.JsonConverter', 'key.converter.schemas.enable': 'false',
+      'value.converter': 'org.apache.kafka.connect.json.JsonConverter', 'value.converter.schemas.enable': 'false',
       'database.hostname': 'mysql', 'database.port': '3306', 'database.user': 'cdc',
       'database.password': 'cdc-book-local', 'database.server.id': '184055' if slow else '184056',
       'topic.prefix': prefix, 'database.include.list': 'inventory', 'table.include.list': 'inventory.products',

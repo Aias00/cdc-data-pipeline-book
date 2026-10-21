@@ -1,0 +1,49 @@
+services:
+  mysql:
+    image: mysql@sha256:0f51e63e537a1f176423fa03ef559aabe6fa4372a53160a44bc7e75da7d15364
+    command: [--server-id=184054, --log-bin=mysql-bin, --binlog-format=ROW, --binlog-row-image=FULL, --binlog-expire-logs-seconds=86400]
+    environment:
+      MYSQL_ROOT_PASSWORD: cdc-book-local
+      MYSQL_ROOT_HOST: '%'
+    ports: ['127.0.0.1:23316:3306']
+  kafka:
+    image: apache/kafka:3.9.1
+    environment:
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_LISTENERS: PLAINTEXT://:9092,CONTROLLER://:9093,HOST://:29092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,HOST://127.0.0.1:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,HOST:PLAINTEXT
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+    ports: ['127.0.0.1:29092:29092']
+  connect:
+    image: quay.io/debezium/connect:3.1.2.Final
+    depends_on: [mysql, kafka]
+    environment:
+      BOOTSTRAP_SERVERS: kafka:9092
+      GROUP_ID: cdc-book-connect
+      CONFIG_STORAGE_TOPIC: book_connect_configs
+      OFFSET_STORAGE_TOPIC: book_connect_offsets
+      STATUS_STORAGE_TOPIC: book_connect_status
+      CONFIG_STORAGE_REPLICATION_FACTOR: 1
+      OFFSET_STORAGE_REPLICATION_FACTOR: 1
+      STATUS_STORAGE_REPLICATION_FACTOR: 1
+      KEY_CONVERTER: org.apache.kafka.connect.json.JsonConverter
+      VALUE_CONVERTER: org.apache.kafka.connect.json.JsonConverter
+      KEY_CONVERTER_SCHEMAS_ENABLE: 'false'
+      VALUE_CONVERTER_SCHEMAS_ENABLE: 'false'
+      REST_ADVERTISED_HOST_NAME: connect
+    ports: ['127.0.0.1:28083:8083']
+  postgres:
+    image: postgres@sha256:a63c1ea3f6a3a5a1621f97d2aba3b30faecfab4224c1b0000cc85ced57bb1939
+    environment:
+      POSTGRES_USER: book
+      POSTGRES_PASSWORD: cdc-book-local
+      POSTGRES_DB: book
+    ports: ['127.0.0.1:25436:5432']

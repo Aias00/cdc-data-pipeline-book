@@ -1,0 +1,7 @@
+site/
+.build/
+.tools/
+node_modules/
+__pycache__/
+lab/evidence/
+research/cache/

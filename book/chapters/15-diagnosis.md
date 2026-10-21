@@ -12,6 +12,12 @@ Connect 的 connector 处于 RUNNING，不代表每个 task 都正常，也不�
 
 同样，Kafka 消费者进程活着可能只是持续轮询空 topic，也可能订阅了拼写错误的前缀。早期实验真实遇到过 topic 尚未创建时订阅失败，因此控制程序明确等待连接器数据 topic 出现。等待有时间上限，缺失会失败，不会把不存在的 topic 自动变成“无数据所以成功”。
 
+## 这份固定镜像已观察到的启动提示
+
+基线容器日志出现ConnectRestExtension插件发现错误，具体是io.debezium.connector.mysql.rest等MySQL、PostgreSQL、SQL Server和MongoDB扩展Provider未找到。该次固定Connect镜像的rest.extension.classes为空，实验只使用标准Connect管理API与MySQL源连接器；标准API、真实binlog数据路径和二十二项检查均实际通过。我们保留这些原始日志，没有把所有ERROR行过滤掉。
+
+这个结论只限定于已观察的可选REST扩展发现提示，不能推广为任意ServiceConfigurationError或堆栈都可忽略。若标准API不可用、MySQL源插件未装载、任务不为RUNNING或消息缺失，实验仍须失败。升级镜像时应重新检查该提示是否变化，并继续验证实际数据路径，而不是根据旧报告静默豁免新错误。
+
 ## 从错误形状识别配置问题
 
 真实 JSON 消息如果出现 schema 与 payload 包装，而消费者期待顶层 op，会报字段缺失。这通常提示 converter 配置或解析契约不一致，不能通过忽略所有缺少 op 的消息掩盖。应当保存收到的结构，确认有效配置，再更新配置或版本化解析器。

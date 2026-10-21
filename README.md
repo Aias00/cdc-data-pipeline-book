@@ -21,3 +21,5 @@ sh scripts/epubcheck.sh
 ```
 
 产品流水线执行真实集成、出版完整性、EPUBCheck零错警、独立ZIP完整重跑、全部章节320/390无JS与交互浏览器验收后部署。Release必须使用同次成功CI的book-downloads原产物。个人版权保留，许可见LICENSE。
+
+固定Connect镜像基线日志有可选ConnectRestExtension Provider发现提示（mysql/postgres/sqlserver/mongodb REST扩展）；本实验未启用扩展，标准Connect API与真实数据路径已通过。只对这组已观察提示记录范围，其他异常仍应排查，详见第15章与原始容器日志。

@@ -152,6 +152,13 @@ def main():
     replay = worker('main', 'live', 'book.inventory.products', ['--replay'])
     check('duplicate replay detected in transactional inbox', replay['duplicates'] == first['messages'] and replay['fresh'] == 0, replay)
     reconcile(source, pg, 'live', 'duplicate-replay')
+    before_invalid = (pg.execute('SELECT count(*) FROM products_projection').fetchone()[0], pg.execute('SELECT count(*) FROM delivery_history').fetchone()[0])
+    rejections=[]
+    for group,generation,topic in [('main','forbidden-new','book.inventory.products'),('other','live','book.inventory.products'),('main','live','wrong-topic')]:
+        bad=subprocess.run([sys.executable,str(LAB/'consumer.py'),'--group',group,'--generation',generation,'--topic',topic],capture_output=True,text=True,timeout=15)
+        rejections.append({'group':group,'generation':generation,'topic':topic,'returncode':bad.returncode,'explicit_binding_error':'Generation must bind' in bad.stderr})
+    after_invalid = (pg.execute('SELECT count(*) FROM products_projection').fetchone()[0], pg.execute('SELECT count(*) FROM delivery_history').fetchone()[0])
+    check('generation group topic mismatch rejected without pollution', all(r['returncode']!=0 and r['explicit_binding_error'] for r in rejections) and before_invalid==after_invalid and pg.execute('SELECT count(*) FROM consumer_binding').fetchone()[0]==1, rejections)
     # Fresh group: one durable DB transaction, then forcibly kill the real process
     # while its code is blocked before consumer.commit().
     marker = EVIDENCE/'kill-ready.json'

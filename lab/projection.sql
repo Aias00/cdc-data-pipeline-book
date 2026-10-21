@@ -21,3 +21,8 @@ CREATE TABLE delivery_history (
   offset_value BIGINT NOT NULL,
   PRIMARY KEY(consumer_group,topic,partition,offset_value)
 );
+CREATE TABLE consumer_binding (
+  generation TEXT PRIMARY KEY,
+  consumer_group TEXT NOT NULL UNIQUE,
+  topic TEXT NOT NULL
+);

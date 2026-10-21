@@ -45,6 +45,14 @@ def apply(db, group, generation, message):
     return bool(fresh), value
 
 
+def bind(db, generation, group, topic):
+    with db.transaction():
+        db.execute('INSERT INTO consumer_binding VALUES (%s,%s,%s) ON CONFLICT DO NOTHING', (generation,group,topic))
+        actual = db.execute('SELECT consumer_group,topic FROM consumer_binding WHERE generation=%s', (generation,)).fetchone()
+        if actual != (group,topic):
+            raise ValueError('Generation must bind to one unique consumer group and topic')
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--group', required=True)
@@ -55,6 +63,8 @@ def main():
     parser.add_argument('--replay', action='store_true')
     parser.add_argument('--idle-seconds', type=float, default=3)
     args = parser.parse_args()
+    db = psycopg.connect(DSN, autocommit=True)
+    bind(db, args.generation, args.group, args.topic)
     consumer = Consumer({'bootstrap.servers': '127.0.0.1:29092', 'group.id': args.group,
                          'enable.auto.commit': False, 'auto.offset.reset': 'earliest',
                          'enable.auto.offset.store': False})
@@ -64,7 +74,6 @@ def main():
                 partition.offset = 0
         c.assign(partitions)
     consumer.subscribe([args.topic], on_assign=assigned)
-    db = psycopg.connect(DSN, autocommit=True)
     totals = {'messages': 0, 'fresh': 0, 'duplicates': 0, 'ops': {}, 'source_positions': []}
     last = time.monotonic()
     try:

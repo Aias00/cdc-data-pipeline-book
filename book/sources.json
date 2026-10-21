@@ -1,0 +1,74 @@
+[
+  {
+    "url": "https://debezium.io/documentation/reference/3.1/connectors/mysql.html",
+    "fetched_date": "2026-10-21",
+    "sha256": "c0bbd46322c17b13af3169a846889002eaf90ea31ba9d49ff7711274de01ab80",
+    "bytes": 451476,
+    "title": "Debezium connector for MySQL :: Debezium Documentation",
+    "original_summary": "快照阶段、ROW与FULL配置、删除包络、binlog与schema历史，支持本书接入协议与边界。",
+    "local_cache": "research/cache/debezium-mysql.html"
+  },
+  {
+    "url": "https://debezium.io/documentation/reference/3.1/configuration/topic-auto-create-config.html",
+    "fetched_date": "2026-10-21",
+    "sha256": "cd6a756422a321c2085b16451aa3224b7f29ad109e3c10127a8622d6a99e029b",
+    "bytes": 67229,
+    "title": "Customization of Kafka Connect automatic topic creation :: Debezium Documentation",
+    "original_summary": "数据topic自动创建的分区和副本参数，配置不等于已验证扩容。",
+    "local_cache": "research/cache/debezium-topic.html"
+  },
+  {
+    "url": "https://dev.mysql.com/doc/refman/8.4/en/replication-formats.html",
+    "fetched_date": "2026-10-21",
+    "sha256": "cec93eaf3126ce2e0095b0f43f9787f75625d64eca7927527b543ed389e125a2",
+    "bytes": 95566,
+    "title": "MySQL :: MySQL 8.4 Reference Manual :: 19.2.1 Replication Formats",
+    "original_summary": "行日志、语句日志和混合格式的区别，本实验选用ROW。",
+    "local_cache": "research/cache/mysql-replication.html"
+  },
+  {
+    "url": "https://dev.mysql.com/doc/refman/8.4/en/binary-log.html",
+    "fetched_date": "2026-10-21",
+    "sha256": "64b8343defeb64df350ecd1a0601546487803683c7e8f60128c8a686ddb9e45d",
+    "bytes": 115458,
+    "title": "MySQL :: MySQL 8.4 Reference Manual :: 7.4.4 The Binary Log",
+    "original_summary": "二进制日志记录变更并有保留边界，日志不等于完整备份。",
+    "local_cache": "research/cache/mysql-binlog.html"
+  },
+  {
+    "url": "https://kafka.apache.org/39/design/design/",
+    "fetched_date": "2026-10-21",
+    "sha256": "f8cc14d4a821a9cbc50ef7560d65f83531f79886d3c68f64b7395eeedf817a19",
+    "bytes": 133444,
+    "title": "Design | Apache Kafka",
+    "original_summary": "分区内有序、消费者位点与交付语义；外部系统原子性需要额外协议。",
+    "local_cache": "research/cache/kafka-design.html"
+  },
+  {
+    "url": "https://docs.confluent.io/platform/current/clients/confluent-kafka-python/html/index.html",
+    "fetched_date": "2026-10-21",
+    "sha256": "0bee7fda8bc589d9d2304c856e6464023831ccb9a3bbb3ac35b3eff74d907055",
+    "bytes": 1185995,
+    "title": "confluent_kafka API &mdash; confluent-kafka 2.16.0 documentation",
+    "original_summary": "Consumer.poll/commit/committed接口及offset语义。实际抓取文档为2.16.0，实验固定2.10.0，所用API由真实实验核验。",
+    "local_cache": "research/cache/kafka-python.html"
+  },
+  {
+    "url": "https://www.postgresql.org/docs/17/sql-insert.html",
+    "fetched_date": "2026-10-21",
+    "sha256": "f6f2d215c4938e754fd2c08be1dce0c1b7e7f147a367153d4890ce4c57a0df8e",
+    "bytes": 45605,
+    "title": "PostgreSQL: Documentation: 17: INSERT",
+    "original_summary": "ON CONFLICT唯一约束与条件更新，支撑数据库内幂等和防倒退。",
+    "local_cache": "research/cache/postgres-insert.html"
+  },
+  {
+    "url": "https://www.postgresql.org/docs/17/transaction-iso.html",
+    "fetched_date": "2026-10-21",
+    "sha256": "e3475df0c76b214dbda0bc681015099763b83778e1355e17ee7b908e6fd38a26",
+    "bytes": 47618,
+    "title": "PostgreSQL: Documentation: 17: 13.2. Transaction Isolation",
+    "original_summary": "数据库事务与可见性，不延伸为跨系统原子提交。",
+    "local_cache": "research/cache/postgres-transaction.html"
+  }
+]

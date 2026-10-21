@@ -7,7 +7,7 @@ services:
       MYSQL_ROOT_HOST: '%'
     ports: ['127.0.0.1:23316:3306']
   kafka:
-    image: apache/kafka:3.9.1
+    image: apache/kafka@sha256:4ceccc577f03f51f6af8dbfda55194d0d892f4fa7913ffbded567ce3895622ed
     environment:
       KAFKA_NODE_ID: 1
       KAFKA_PROCESS_ROLES: broker,controller
@@ -23,7 +23,7 @@ services:
       KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
     ports: ['127.0.0.1:29092:29092']
   connect:
-    image: quay.io/debezium/connect:3.1.2.Final
+    image: quay.io/debezium/connect@sha256:1290a7abb0c1fe957f8d732e43efbea24201d9ba0fa5ba79582f76438c05d0ba
     depends_on: [mysql, kafka]
     environment:
       BOOTSTRAP_SERVERS: kafka:9092

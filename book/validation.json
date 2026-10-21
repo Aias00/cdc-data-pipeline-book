@@ -1,0 +1,837 @@
+{
+  "status": "PASS",
+  "skipped": 0,
+  "checks": [
+    {
+      "name": "writes occurred while real snapshot SELECT remained active",
+      "passed": true,
+      "details": {
+        "before": [
+          {
+            "Id": 12,
+            "User": "cdc",
+            "Host": "172.18.0.5:54146",
+            "db": null,
+            "Command": "Query",
+            "Time": 1,
+            "State": "User sleep",
+            "Info": "SELECT * FROM inventory.products WHERE SLEEP(0.003)=0"
+          }
+        ],
+        "after": [
+          {
+            "Id": 12,
+            "User": "cdc",
+            "Host": "172.18.0.5:54146",
+            "db": null,
+            "Command": "Query",
+            "Time": 1,
+            "State": "User sleep",
+            "Info": "SELECT * FROM inventory.products WHERE SLEEP(0.003)=0"
+          }
+        ],
+        "write_start_mysql_utc": "2026-10-21T11:56:09.773212",
+        "write_end_mysql_utc": "2026-10-21T11:56:09.776379",
+        "write_ids": [
+          3001,
+          1,
+          2
+        ]
+      }
+    },
+    {
+      "name": "real snapshot and binlog r/c/u/d captured",
+      "passed": true,
+      "details": {
+        "r": 2000,
+        "c": 1,
+        "u": 1,
+        "d": 1
+      }
+    },
+    {
+      "name": "real binlog file and position captured",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "snapshot-plus-binlog exact full-row reconciliation",
+      "passed": true,
+      "details": {
+        "source_rows": 2000,
+        "projection_rows": 2000,
+        "source_sha256": "ef5e55e7ed02fd3cb4fa8c0e970d2e3509471399ab6e0a8d918b2067efd838ab",
+        "projection_sha256": "ef5e55e7ed02fd3cb4fa8c0e970d2e3509471399ab6e0a8d918b2067efd838ab",
+        "all_rows_all_fields_equal": true
+      }
+    },
+    {
+      "name": "duplicate replay detected in transactional inbox",
+      "passed": true,
+      "details": {
+        "messages": 2004,
+        "fresh": 0,
+        "duplicates": 2004,
+        "ops": {
+          "r": 2000,
+          "c": 1,
+          "u": 1,
+          "d": 1
+        },
+        "source_positions": [
+          {
+            "version": "3.1.2.Final",
+            "connector": "mysql",
+            "name": "book",
+            "ts_ms": 1792583768000,
+            "snapshot": "first",
+            "db": "inventory",
+            "sequence": null,
+            "ts_us": 1792583768000000,
+            "ts_ns": 1792583768000000000,
+            "table": "products",
+            "server_id": 0,
+            "gtid": null,
+            "file": "mysql-bin.000003",
+            "pos": 56672,
+            "row": 0,
+            "thread": null,
+            "query": null
+          },
+          {
+            "version": "3.1.2.Final",
+            "connector": "mysql",
+            "name": "book",
+            "ts_ms": 1792583768000,
+            "snapshot": "true",
+            "db": "inventory",
+            "sequence": null,
+            "ts_us": 1792583768000000,
+            "ts_ns": 1792583768000000000,
+            "table": "products",
+            "server_id": 0,
+            "gtid": null,
+            "file": "mysql-bin.000003",
+            "pos": 56672,
+            "row": 0,
+            "thread": null,
+            "query": null
+          },
+          {
+            "version": "3.1.2.Final",
+            "connector": "mysql",
+            "name": "book",
+            "ts_ms": 1792583768000,
+            "snapshot": "true",
+            "db": "inventory",
+            "sequence": null,
+            "ts_us": 1792583768000000,
+            "ts_ns": 1792583768000000000,
+            "table": "products",
+            "server_id": 0,
+            "gtid": null,
+            "file": "mysql-bin.000003",
+            "pos": 56672,
+            "row": 0,
+            "thread": null,
+            "query": null
+          },
+          {
+            "version": "3.1.2.Final",
+            "connector": "mysql",
+            "name": "book",
+            "ts_ms": 1792583768000,
+            "snapshot": "true",
+            "db": "inventory",
+            "sequence": null,
+            "ts_us": 1792583768000000,
+            "ts_ns": 1792583768000000000,
+            "table": "products",
+            "server_id": 0,
+            "gtid": null,
+            "file": "mysql-bin.000003",
+            "pos": 56672,
+            "row": 0,
+            "thread": null,
+            "query": null
+          },
+          {
+            "version": "3.1.2.Final",
+            "connector": "mysql",
+            "name": "book",
+            "ts_ms": 1792583768000,
+            "snapshot": "true",
+            "db": "inventory",
+            "sequence": null,
+            "ts_us": 1792583768000000,
+            "ts_ns": 1792583768000000000,
+            "table": "products",
+            "server_id": 0,
+            "gtid": null,
+            "file": "mysql-bin.000003",
+            "pos": 56672,
+            "row": 0,
+            "thread": null,
+            "query": null
+          },
+          {
+            "version": "3.1.2.Final",
+            "connector": "mysql",
+            "name": "book",
+            "ts_ms": 1792583768000,
+            "snapshot": "true",
+            "db": "inventory",
+            "sequence": null,
+            "ts_us": 1792583768000000,
+            "ts_ns": 1792583768000000000,
+            "table": "products",
+            "server_id": 0,
+            "gtid": null,
+            "file": "mysql-bin.000003",
+            "pos": 56672,
+            "row": 0,
+            "thread": null,
+            "query": null
+          },
+          {
+            "version": "3.1.2.Final",
+            "connector": "mysql",
+            "name": "book",
+            "ts_ms": 1792583768000,
+            "snapshot": "true",
+            "db": "inventory",
+            "sequence": null,
+            "ts_us": 1792583768000000,
+            "ts_ns": 1792583768000000000,
+            "table": "products",
+            "server_id": 0,
+            "gtid": null,
+            "file": "mysql-bin.000003",
+            "pos": 56672,
+            "row": 0,
+            "thread": null,
+            "query": null
+          },
+          {
+            "version": "3.1.2.Final",
+            "connector": "mysql",
+            "name": "book",
+            "ts_ms": 1792583768000,
+            "snapshot": "true",
+            "db": "inventory",
+            "sequence": null,
+            "ts_us": 1792583768000000,
+            "ts_ns": 1792583768000000000,
+            "table": "products",
+            "server_id": 0,
+            "gtid": null,
+            "file": "mysql-bin.000003",
+            "pos": 56672,
+            "row": 0,
+            "thread": null,
+            "query": null
+          }
+        ]
+      }
+    },
+    {
+      "name": "duplicate-replay exact full-row reconciliation",
+      "passed": true,
+      "details": {
+        "source_rows": 2000,
+        "projection_rows": 2000,
+        "source_sha256": "ef5e55e7ed02fd3cb4fa8c0e970d2e3509471399ab6e0a8d918b2067efd838ab",
+        "projection_sha256": "ef5e55e7ed02fd3cb4fa8c0e970d2e3509471399ab6e0a8d918b2067efd838ab",
+        "all_rows_all_fields_equal": true
+      }
+    },
+    {
+      "name": "generation group topic mismatch rejected without pollution",
+      "passed": true,
+      "details": [
+        {
+          "group": "main",
+          "generation": "forbidden-new",
+          "topic": "book.inventory.products",
+          "returncode": 1,
+          "explicit_binding_error": true
+        },
+        {
+          "group": "other",
+          "generation": "live",
+          "topic": "book.inventory.products",
+          "returncode": 1,
+          "explicit_binding_error": true
+        },
+        {
+          "group": "main",
+          "generation": "live",
+          "topic": "wrong-topic",
+          "returncode": 1,
+          "explicit_binding_error": true
+        }
+      ]
+    },
+    {
+      "name": "database committed before process kill",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "broker offset uncommitted at kill barrier",
+      "passed": true,
+      "details": {
+        "broker_next_offset": -1001,
+        "topic": "book.inventory.products",
+        "partition": 0,
+        "offset": 0
+      }
+    },
+    {
+      "name": "real subprocess terminated by SIGKILL",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "restart re-delivers committed-database event",
+      "passed": true,
+      "details": {
+        "messages": 2004,
+        "fresh": 2003,
+        "duplicates": 1,
+        "ops": {
+          "r": 2000,
+          "c": 1,
+          "u": 1,
+          "d": 1
+        },
+        "source_positions": [
+          {
+            "version": "3.1.2.Final",
+            "connector": "mysql",
+            "name": "book",
+            "ts_ms": 1792583768000,
+            "snapshot": "first",
+            "db": "inventory",
+            "sequence": null,
+            "ts_us": 1792583768000000,
+            "ts_ns": 1792583768000000000,
+            "table": "products",
+            "server_id": 0,
+            "gtid": null,
+            "file": "mysql-bin.000003",
+            "pos": 56672,
+            "row": 0,
+            "thread": null,
+            "query": null
+          },
+          {
+            "version": "3.1.2.Final",
+            "connector": "mysql",
+            "name": "book",
+            "ts_ms": 1792583768000,
+            "snapshot": "true",
+            "db": "inventory",
+            "sequence": null,
+            "ts_us": 1792583768000000,
+            "ts_ns": 1792583768000000000,
+            "table": "products",
+            "server_id": 0,
+            "gtid": null,
+            "file": "mysql-bin.000003",
+            "pos": 56672,
+            "row": 0,
+            "thread": null,
+            "query": null
+          },
+          {
+            "version": "3.1.2.Final",
+            "connector": "mysql",
+            "name": "book",
+            "ts_ms": 1792583768000,
+            "snapshot": "true",
+            "db": "inventory",
+            "sequence": null,
+            "ts_us": 1792583768000000,
+            "ts_ns": 1792583768000000000,
+            "table": "products",
+            "server_id": 0,
+            "gtid": null,
+            "file": "mysql-bin.000003",
+            "pos": 56672,
+            "row": 0,
+            "thread": null,
+            "query": null
+          },
+          {
+            "version": "3.1.2.Final",
+            "connector": "mysql",
+            "name": "book",
+            "ts_ms": 1792583768000,
+            "snapshot": "true",
+            "db": "inventory",
+            "sequence": null,
+            "ts_us": 1792583768000000,
+            "ts_ns": 1792583768000000000,
+            "table": "products",
+            "server_id": 0,
+            "gtid": null,
+            "file": "mysql-bin.000003",
+            "pos": 56672,
+            "row": 0,
+            "thread": null,
+            "query": null
+          },
+          {
+            "version": "3.1.2.Final",
+            "connector": "mysql",
+            "name": "book",
+            "ts_ms": 1792583768000,
+            "snapshot": "true",
+            "db": "inventory",
+            "sequence": null,
+            "ts_us": 1792583768000000,
+            "ts_ns": 1792583768000000000,
+            "table": "products",
+            "server_id": 0,
+            "gtid": null,
+            "file": "mysql-bin.000003",
+            "pos": 56672,
+            "row": 0,
+            "thread": null,
+            "query": null
+          },
+          {
+            "version": "3.1.2.Final",
+            "connector": "mysql",
+            "name": "book",
+            "ts_ms": 1792583768000,
+            "snapshot": "true",
+            "db": "inventory",
+            "sequence": null,
+            "ts_us": 1792583768000000,
+            "ts_ns": 1792583768000000000,
+            "table": "products",
+            "server_id": 0,
+            "gtid": null,
+            "file": "mysql-bin.000003",
+            "pos": 56672,
+            "row": 0,
+            "thread": null,
+            "query": null
+          },
+          {
+            "version": "3.1.2.Final",
+            "connector": "mysql",
+            "name": "book",
+            "ts_ms": 1792583768000,
+            "snapshot": "true",
+            "db": "inventory",
+            "sequence": null,
+            "ts_us": 1792583768000000,
+            "ts_ns": 1792583768000000000,
+            "table": "products",
+            "server_id": 0,
+            "gtid": null,
+            "file": "mysql-bin.000003",
+            "pos": 56672,
+            "row": 0,
+            "thread": null,
+            "query": null
+          },
+          {
+            "version": "3.1.2.Final",
+            "connector": "mysql",
+            "name": "book",
+            "ts_ms": 1792583768000,
+            "snapshot": "true",
+            "db": "inventory",
+            "sequence": null,
+            "ts_us": 1792583768000000,
+            "ts_ns": 1792583768000000000,
+            "table": "products",
+            "server_id": 0,
+            "gtid": null,
+            "file": "mysql-bin.000003",
+            "pos": 56672,
+            "row": 0,
+            "thread": null,
+            "query": null
+          }
+        ]
+      }
+    },
+    {
+      "name": "crash-restart exact full-row reconciliation",
+      "passed": true,
+      "details": {
+        "source_rows": 2000,
+        "projection_rows": 2000,
+        "source_sha256": "ef5e55e7ed02fd3cb4fa8c0e970d2e3509471399ab6e0a8d918b2067efd838ab",
+        "projection_sha256": "ef5e55e7ed02fd3cb4fa8c0e970d2e3509471399ab6e0a8d918b2067efd838ab",
+        "all_rows_all_fields_equal": true
+      }
+    },
+    {
+      "name": "stopped consumer leaves projection observably stale",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "backlog drained after consumer restart",
+      "passed": true,
+      "details": {
+        "messages": 103,
+        "fresh": 103,
+        "duplicates": 0,
+        "ops": {
+          "u": 100,
+          "d": 1,
+          "c": 1
+        },
+        "source_positions": [
+          {
+            "version": "3.1.2.Final",
+            "connector": "mysql",
+            "name": "book",
+            "ts_ms": 1792583841000,
+            "snapshot": "false",
+            "db": "inventory",
+            "sequence": null,
+            "ts_us": 1792583841000000,
+            "ts_ns": 1792583841000000000,
+            "table": "products",
+            "server_id": 184054,
+            "gtid": null,
+            "file": "mysql-bin.000003",
+            "pos": 57890,
+            "row": 0,
+            "thread": 8,
+            "query": null
+          },
+          {
+            "version": "3.1.2.Final",
+            "connector": "mysql",
+            "name": "book",
+            "ts_ms": 1792583841000,
+            "snapshot": "false",
+            "db": "inventory",
+            "sequence": null,
+            "ts_us": 1792583841000000,
+            "ts_ns": 1792583841000000000,
+            "table": "products",
+            "server_id": 184054,
+            "gtid": null,
+            "file": "mysql-bin.000003",
+            "pos": 58238,
+            "row": 0,
+            "thread": 8,
+            "query": null
+          },
+          {
+            "version": "3.1.2.Final",
+            "connector": "mysql",
+            "name": "book",
+            "ts_ms": 1792583841000,
+            "snapshot": "false",
+            "db": "inventory",
+            "sequence": null,
+            "ts_us": 1792583841000000,
+            "ts_ns": 1792583841000000000,
+            "table": "products",
+            "server_id": 184054,
+            "gtid": null,
+            "file": "mysql-bin.000003",
+            "pos": 58586,
+            "row": 0,
+            "thread": 8,
+            "query": null
+          },
+          {
+            "version": "3.1.2.Final",
+            "connector": "mysql",
+            "name": "book",
+            "ts_ms": 1792583841000,
+            "snapshot": "false",
+            "db": "inventory",
+            "sequence": null,
+            "ts_us": 1792583841000000,
+            "ts_ns": 1792583841000000000,
+            "table": "products",
+            "server_id": 184054,
+            "gtid": null,
+            "file": "mysql-bin.000003",
+            "pos": 58934,
+            "row": 0,
+            "thread": 8,
+            "query": null
+          },
+          {
+            "version": "3.1.2.Final",
+            "connector": "mysql",
+            "name": "book",
+            "ts_ms": 1792583841000,
+            "snapshot": "false",
+            "db": "inventory",
+            "sequence": null,
+            "ts_us": 1792583841000000,
+            "ts_ns": 1792583841000000000,
+            "table": "products",
+            "server_id": 184054,
+            "gtid": null,
+            "file": "mysql-bin.000003",
+            "pos": 59282,
+            "row": 0,
+            "thread": 8,
+            "query": null
+          },
+          {
+            "version": "3.1.2.Final",
+            "connector": "mysql",
+            "name": "book",
+            "ts_ms": 1792583841000,
+            "snapshot": "false",
+            "db": "inventory",
+            "sequence": null,
+            "ts_us": 1792583841000000,
+            "ts_ns": 1792583841000000000,
+            "table": "products",
+            "server_id": 184054,
+            "gtid": null,
+            "file": "mysql-bin.000003",
+            "pos": 59630,
+            "row": 0,
+            "thread": 8,
+            "query": null
+          },
+          {
+            "version": "3.1.2.Final",
+            "connector": "mysql",
+            "name": "book",
+            "ts_ms": 1792583841000,
+            "snapshot": "false",
+            "db": "inventory",
+            "sequence": null,
+            "ts_us": 1792583841000000,
+            "ts_ns": 1792583841000000000,
+            "table": "products",
+            "server_id": 184054,
+            "gtid": null,
+            "file": "mysql-bin.000003",
+            "pos": 59978,
+            "row": 0,
+            "thread": 8,
+            "query": null
+          },
+          {
+            "version": "3.1.2.Final",
+            "connector": "mysql",
+            "name": "book",
+            "ts_ms": 1792583841000,
+            "snapshot": "false",
+            "db": "inventory",
+            "sequence": null,
+            "ts_us": 1792583841000000,
+            "ts_ns": 1792583841000000000,
+            "table": "products",
+            "server_id": 184054,
+            "gtid": null,
+            "file": "mysql-bin.000003",
+            "pos": 60326,
+            "row": 0,
+            "thread": 8,
+            "query": null
+          }
+        ]
+      }
+    },
+    {
+      "name": "backlog-catchup exact full-row reconciliation",
+      "passed": true,
+      "details": {
+        "source_rows": 2000,
+        "projection_rows": 2000,
+        "source_sha256": "7f69b06e620df26b25e1545c1ff024bf411b3557f400f3e10f838ac8db7e0d52",
+        "projection_sha256": "7f69b06e620df26b25e1545c1ff024bf411b3557f400f3e10f838ac8db7e0d52",
+        "all_rows_all_fields_equal": true
+      }
+    },
+    {
+      "name": "real ALTER and subsequent binlog update consumed",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "added field reaches query document",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "schema-evolution exact full-row reconciliation",
+      "passed": true,
+      "details": {
+        "source_rows": 2000,
+        "projection_rows": 2000,
+        "source_sha256": "20ce4d9f538da14fd34249fa0ae1145037e6379a82b74673e53f776704d441ac",
+        "projection_sha256": "20ce4d9f538da14fd34249fa0ae1145037e6379a82b74673e53f776704d441ac",
+        "all_rows_all_fields_equal": true
+      }
+    },
+    {
+      "name": "isolated new snapshot rebuild consumed",
+      "passed": true,
+      "details": {
+        "r": 2000
+      }
+    },
+    {
+      "name": "full-rebuild exact full-row reconciliation",
+      "passed": true,
+      "details": {
+        "source_rows": 2000,
+        "projection_rows": 2000,
+        "source_sha256": "20ce4d9f538da14fd34249fa0ae1145037e6379a82b74673e53f776704d441ac",
+        "projection_sha256": "20ce4d9f538da14fd34249fa0ae1145037e6379a82b74673e53f776704d441ac",
+        "all_rows_all_fields_equal": true
+      }
+    },
+    {
+      "name": "live generation preserved during rebuild",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "both actual connectors and tasks RUNNING",
+      "passed": true,
+      "details": {
+        "book-source": {
+          "name": "book-source",
+          "connector": {
+            "state": "RUNNING",
+            "worker_id": "172.18.0.5:8083"
+          },
+          "tasks": [
+            {
+              "id": 0,
+              "state": "RUNNING",
+              "worker_id": "172.18.0.5:8083"
+            }
+          ],
+          "type": "source"
+        },
+        "book-rebuild": {
+          "name": "book-rebuild",
+          "connector": {
+            "state": "RUNNING",
+            "worker_id": "172.18.0.5:8083"
+          },
+          "tasks": [
+            {
+              "id": 0,
+              "state": "RUNNING",
+              "worker_id": "172.18.0.5:8083"
+            }
+          ],
+          "type": "source"
+        }
+      }
+    }
+  ],
+  "check_count": 22,
+  "duration_seconds": 102.985,
+  "versions": {
+    "mysql": "8.4.11",
+    "postgres": "PostgreSQL 17.11 (Debian 17.11-1.pgdg13+2) on x86_64-pc-linux-gnu, compiled by gcc (Debian 14.2.0-19) 14.2.0, 64-bit",
+    "connect_plugins": [
+      {
+        "class": "io.debezium.connector.jdbc.JdbcSinkConnector",
+        "type": "sink",
+        "version": "3.1.2.Final"
+      },
+      {
+        "class": "io.debezium.connector.mongodb.MongoDbSinkConnector",
+        "type": "sink",
+        "version": "3.1.2.Final"
+      },
+      {
+        "class": "io.debezium.connector.db2.Db2Connector",
+        "type": "source",
+        "version": "3.1.2.Final"
+      },
+      {
+        "class": "io.debezium.connector.db2as400.As400RpcConnector",
+        "type": "source",
+        "version": "3.1.2.Final"
+      },
+      {
+        "class": "io.debezium.connector.informix.InformixConnector",
+        "type": "source",
+        "version": "3.1.2.Final"
+      },
+      {
+        "class": "io.debezium.connector.mariadb.MariaDbConnector",
+        "type": "source",
+        "version": "3.1.2.Final"
+      },
+      {
+        "class": "io.debezium.connector.mongodb.MongoDbConnector",
+        "type": "source",
+        "version": "3.1.2.Final"
+      },
+      {
+        "class": "io.debezium.connector.mysql.MySqlConnector",
+        "type": "source",
+        "version": "3.1.2.Final"
+      },
+      {
+        "class": "io.debezium.connector.oracle.OracleConnector",
+        "type": "source",
+        "version": "3.1.2.Final"
+      },
+      {
+        "class": "io.debezium.connector.postgresql.PostgresConnector",
+        "type": "source",
+        "version": "3.1.2.Final"
+      },
+      {
+        "class": "io.debezium.connector.spanner.SpannerConnector",
+        "type": "source",
+        "version": "3.1.2.Final"
+      },
+      {
+        "class": "io.debezium.connector.sqlserver.SqlServerConnector",
+        "type": "source",
+        "version": "3.1.2.Final"
+      },
+      {
+        "class": "io.debezium.connector.vitess.VitessConnector",
+        "type": "source",
+        "version": "3.1.2.Final"
+      },
+      {
+        "class": "org.apache.kafka.connect.mirror.MirrorCheckpointConnector",
+        "type": "source",
+        "version": "3.9.0"
+      },
+      {
+        "class": "org.apache.kafka.connect.mirror.MirrorHeartbeatConnector",
+        "type": "source",
+        "version": "3.9.0"
+      },
+      {
+        "class": "org.apache.kafka.connect.mirror.MirrorSourceConnector",
+        "type": "source",
+        "version": "3.9.0"
+      }
+    ],
+    "python": "3.12.15 (main, Oct  1 2026, 02:35:59) [GCC 13.3.0]"
+  },
+  "run_url": "https://github.com/Aias00/cdc-data-pipeline-book/actions/runs/39595556800",
+  "boundaries": [
+    "single Kafka broker; one data partition",
+    "real Debezium initial snapshot and MySQL binlog",
+    "local teaching credentials only",
+    "no multi-node failover or binlog-loss proof",
+    "cross-store delivery is at-least-once with projection convergence; not end-to-end exactly-once"
+  ]
+}

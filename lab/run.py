@@ -122,7 +122,9 @@ def main():
     eventually(lambda: request('/connector-plugins'))
     versions = {'mysql': sql(source, 'SELECT VERSION() AS version')[0]['version'],
                 'postgres': pg.execute('SELECT version()').fetchone()[0],
-                'connect_plugins': request('/connector-plugins'), 'python': sys.version}
+                'connect_plugins': request('/connector-plugins'), 'python': sys.version,
+                'kafka': (EVIDENCE/'kafka-version.txt').read_text().strip(),
+                'images': {name:json.loads((EVIDENCE/('image-'+name+'.json')).read_text()) for name in ('mysql','kafka','connect','postgres')}}
     (EVIDENCE/'versions.json').write_text(json.dumps(versions, indent=2))
     for statement in (LAB/'schema.sql').read_text().split(';'):
         if statement.strip():
@@ -145,7 +147,7 @@ def main():
     overlap = {'before': before, 'after': after, 'write_start_mysql_utc': timestamp_before,
                'write_end_mysql_utc': timestamp_after, 'write_ids': [3001,1,2]}
     (EVIDENCE/'snapshot-write-overlap.json').write_text(json.dumps(overlap, default=str, indent=2))
-    check('writes occurred while real snapshot SELECT remained active', bool(before and after), overlap)
+    check('writes occurred while real snapshot SELECT remained active', bool({r['Id'] for r in before} & {r['Id'] for r in after}), overlap)
     first = worker('main', 'live', 'book.inventory.products')
     (EVIDENCE/'initial-consume.json').write_text(json.dumps(first, indent=2))
     check('real snapshot and binlog r/c/u/d captured', all(first['ops'].get(op,0)>0 for op in ('r','c','u','d')), first['ops'])
@@ -206,9 +208,9 @@ def main():
     reconcile(source, pg, 'new-generation', 'full-rebuild')
     check('live generation preserved during rebuild', projection_rows(pg,'live') == projection_rows(pg,'new-generation'))
     statuses = {name: request('/connectors/'+name+'/status') for name in ('book-source','book-rebuild')}
-    check('both actual connectors and tasks RUNNING', all(s['connector']['state']=='RUNNING' and all(t['state']=='RUNNING' for t in s['tasks']) for s in statuses.values()), statuses)
+    check('both actual connectors and tasks RUNNING', all(s['connector']['state']=='RUNNING' and len(s['tasks'])==1 and all(t['state']=='RUNNING' for t in s['tasks']) for s in statuses.values()), statuses)
     result = {'status':'PASS','skipped':0,'checks':checks,'check_count':len(checks),'duration_seconds':round(time.time()-start,3),
-              'versions':versions,'run_url':os.environ.get('BOOK_RUN_URL'),
+              'versions':versions,'run_url':os.environ.get('BOOK_RUN_URL'),'source_revision':os.environ.get('BOOK_SOURCE_SHA'),
               'boundaries':['single Kafka broker; one data partition','real Debezium initial snapshot and MySQL binlog',
                             'local teaching credentials only','no multi-node failover or binlog-loss proof',
                             'cross-store delivery is at-least-once with projection convergence; not end-to-end exactly-once']}

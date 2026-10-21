@@ -1,0 +1,102 @@
+name: Build, verify and publish book
+on:
+  push:
+    branches: [main]
+    paths:
+      - book/**
+      - lab/**
+      - scripts/**
+      - web/**
+      - epub/**
+      - LICENSE
+      - .github/workflows/pages.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: book-pages
+  cancel-in-progress: true
+defaults:
+  run:
+    shell: bash
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    env:
+      BOOK_RUN_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+      BOOK_SOURCE_SHA: ${{ github.sha }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: r-lib/actions/setup-pandoc@v2
+        with:
+          pandoc-version: '3.12.1'
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Run actual MySQL Debezium Kafka and projection failure experiments
+        env:
+          CDC_COMPOSE_PROJECT: cdc-book-${{ github.run_id }}-source
+        run: sh lab/run.sh
+      - name: Admit complete real runtime evidence
+        run: |
+          python3 scripts/validate-runtime.py lab/evidence/runtime.json
+          cp lab/evidence/runtime.json book/validation.json
+      - name: Build EPUB and reader from same manuscript
+        run: python3 scripts/build.py
+      - name: Verify source, EPUB, reader and standalone archive
+        run: python3 scripts/verify.py
+      - name: Validate EPUB 3 with zero errors and warnings
+        run: sh scripts/epubcheck.sh
+      - name: Execute independently extracted experiment archive from empty services
+        env:
+          CDC_COMPOSE_PROJECT: cdc-book-${{ github.run_id }}-archive
+          CDC_EVIDENCE_DIR: ${{ runner.temp }}/cdc-archive-evidence
+        run: |
+          task_archive_dir="$RUNNER_TEMP/cdc-archive"
+          python3 -m zipfile -e site/downloads/lab.zip "$task_archive_dir"
+          cd "$task_archive_dir"
+          sh lab/run.sh
+      - name: Validate independent archive runtime evidence
+        run: python3 scripts/validate-runtime.py "$RUNNER_TEMP/cdc-archive-evidence/runtime.json"
+      - name: Install browser tools
+        run: |
+          npm install --no-save --package-lock=false playwright@1.64.1
+          npx playwright install --with-deps chromium
+      - name: Verify all chapters, mobile, no-JS, search and reading controls
+        run: |
+          python3 -m http.server 8786 --bind 127.0.0.1 --directory site > /tmp/cdc-book-http.log 2>&1 &
+          node scripts/browser-check.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: real-cdc-evidence
+          path: |
+            lab/evidence/
+            ${{ runner.temp }}/cdc-archive-evidence/
+      - uses: actions/upload-artifact@v4
+        with:
+          name: book-downloads
+          path: site/downloads/
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+  deploy:
+    needs: build
+    runs-on: ubuntu-24.04
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/deploy-pages@v4
+        id: deploy

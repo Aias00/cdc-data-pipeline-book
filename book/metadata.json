@@ -1,0 +1,17 @@
+{
+  "title": "业务数据同步工程：从 CDC 到可重建索引",
+  "subtitle": "用真实日志、消费故障与完整对账建立可靠投影",
+  "author": "Aias00",
+  "lang": "zh-CN",
+  "repository": "https://github.com/Aias00/cdc-data-pipeline-book",
+  "slug": "cdc-data-pipeline-book",
+  "version": "1.0.0",
+  "description": "通过真实 MySQL、Debezium、Kafka 与 PostgreSQL 实验，理解快照与增量衔接、重复投递、删除、Schema 演进和可验证重建。",
+  "rights": "© 2026 Aias00. 保留所有权利。",
+  "cover_lines": [
+    "业务数据同步",
+    "工程"
+  ],
+  "cover_label": "CDC & REBUILDABLE PROJECTIONS",
+  "include_code": true
+}

@@ -14,6 +14,7 @@ import urllib.request
 import pymysql
 import psycopg
 from confluent_kafka import Consumer, TopicPartition
+from confluent_kafka.admin import AdminClient
 
 ROOT = Path(__file__).resolve().parents[1]
 LAB = ROOT/'lab'
@@ -81,6 +82,8 @@ def connector(name, prefix, slow=False):
 
 
 def worker(group, generation, topic, extra=()):
+    admin = AdminClient({'bootstrap.servers':'127.0.0.1:29092'})
+    eventually(lambda: topic in admin.list_topics(timeout=10).topics)
     command = [sys.executable, str(LAB/'consumer.py'), '--group', group, '--generation', generation,
                '--topic', topic, *extra]
     result = subprocess.run(command, capture_output=True, text=True, timeout=150)
